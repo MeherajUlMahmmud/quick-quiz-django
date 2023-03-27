@@ -54,6 +54,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'account_control.apps.AccountControlConfig',
     'group_control.apps.GroupControlConfig',
+    'subscription_control.apps.SubscriptionControlConfig',
     'utility_control.apps.UtilityControlConfig',
 ]
 

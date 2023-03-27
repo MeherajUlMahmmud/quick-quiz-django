@@ -48,8 +48,8 @@ class GroupPostClapModelViewSet(CustomModelViewSet):
         return GroupPostClapModelSerializer.List
 
     def get_queryset(self):
-        return GroupPostClapModel.objects.filter(group_post__group__created_by=self.request.user) \
-            .order_by('-created_at')
+        return GroupPostClapModel.objects.filter(group_post__group__created_by=self.request.user).order_by(
+            '-created_at')
 
 
 class GroupPostCommentModelViewSet(CustomModelViewSet):
