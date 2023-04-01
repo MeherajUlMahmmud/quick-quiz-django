@@ -8,12 +8,7 @@ from account_control.serializers.teacher import TeacherModelSerializer
 class UserModelSerializerMeta(ModelSerializer):
     class Meta:
         model = UserModel
-        fields = ['id',
-                  'username',
-                  'name',
-                  'is_student',
-                  'is_teacher',
-                  ]
+        fields = ['id', 'username', 'name', 'email']
 
 
 class UserModelSerializer:
@@ -23,6 +18,8 @@ class UserModelSerializer:
         class Meta(UserModelSerializerMeta.Meta):
             fields = UserModelSerializerMeta.Meta.fields + [
                 'password',
+                'is_student',
+                'is_teacher',
             ]
             read_only_fields = ['id', 'password']
 
@@ -61,13 +58,13 @@ class UserModelSerializer:
             read_only_fields = ['id']
 
     class List(UserModelSerializerMeta):
-        student = StudentModelSerializer.Lite(allow_null=True)
-        teacher = TeacherModelSerializer.Lite(allow_null=True)
 
         class Meta(UserModelSerializerMeta.Meta):
             fields = UserModelSerializerMeta.Meta.fields + [
                 'phone',
                 'email',
+                'is_student',
+                'is_teacher',
                 'is_active',
                 'is_admin',
                 'student',
@@ -77,8 +74,5 @@ class UserModelSerializer:
     class Lite(UserModelSerializerMeta):
         class Meta(UserModelSerializerMeta.Meta):
             fields = UserModelSerializerMeta.Meta.fields + [
-                'phone',
                 'email',
-                'is_active',
-                'is_admin',
             ]

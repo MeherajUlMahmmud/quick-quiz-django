@@ -47,4 +47,6 @@ class GroupMemberModelViewSet(CustomModelViewSet):
         return GroupMemberModelSerializer.List
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return GroupMemberModel.objects.all().order_by('-created_at')
         return GroupMemberModel.objects.filter(group__created_by=self.request.user).order_by('-created_at')

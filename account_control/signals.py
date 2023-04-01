@@ -11,3 +11,5 @@ def create_student_or_teacher(sender, instance, created, **kwargs):
             StudentModel.objects.create(user=instance)
         if instance.is_teacher:
             TeacherModel.objects.create(user=instance)
+
+#         send verification email

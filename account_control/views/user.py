@@ -13,7 +13,7 @@ from common.custom_view import CustomModelViewSet
 
 class UserModelViewSet(CustomModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete']
-    queryset = UserModel.objects.all()
+    queryset = UserModel.objects.all().order_by('-created_at')
     permission_classes = [IsAuthenticated]
     search_fields = ['username']
     filterset_class = UserModelFilter
@@ -29,8 +29,8 @@ class UserModelViewSet(CustomModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_superuser or self.request.user.is_staff or self.request.user.is_admin:
-            return UserModel.objects.all()
-        return UserModel.objects.filter(id=self.request.user.id)
+            return UserModel.objects.all().order_by('-created_at')
+        return UserModel.objects.filter(id=self.request.user.id).order_by('-created_at')
 
     def retrieve(self, request, *args, **kwargs):
         user = UserModel.objects.get(id=kwargs['pk'])

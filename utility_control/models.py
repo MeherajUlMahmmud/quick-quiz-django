@@ -19,7 +19,7 @@ class FileModel(BaseModel):
 
     def __str__(self):
         return self.file_name
-    
+
 
 class FeedbackModel(BaseModel):
     name = models.CharField(max_length=255)

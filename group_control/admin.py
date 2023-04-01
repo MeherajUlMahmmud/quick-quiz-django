@@ -10,8 +10,14 @@ class GroupModelAdmin(admin.ModelAdmin):
     list_filter = ('name', 'description', 'unique_code', 'created_by', 'cover_picture', 'profile_picture')
 
 
+class GroupMemberModelAdmin(admin.ModelAdmin):
+    list_display = ('group', 'member', 'is_admin', 'is_moderator')
+    search_fields = ('group', 'member', 'is_admin', 'is_moderator')
+    list_filter = ('group', 'member', 'is_admin', 'is_moderator')
+
+
 admin.site.register(GroupModel, GroupModelAdmin)
-admin.site.register(GroupMemberModel)
+admin.site.register(GroupMemberModel, GroupMemberModelAdmin)
 admin.site.register(GroupMemberRequestModel)
 admin.site.register(GroupPostModel)
 admin.site.register(GroupPostClapModel)

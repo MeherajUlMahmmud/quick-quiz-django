@@ -1,6 +1,12 @@
 from django.db import models
 
 
+class ExamType(models.TextChoices):
+    MCQ = "MCQ", "Multiple Choice"
+    TF = "TF", "True-False"
+    FITB = "FITB", "Fill in the Blank"
+
+
 class GroupMemberRequestStatus(models.TextChoices):
     PENDING = "Pending", "Pending"
     ACCEPTED = "Accepted", "Accepted"

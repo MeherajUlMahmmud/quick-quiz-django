@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, IntegerField
 
 from account_control.serializers.user import UserModelSerializer
 from group_control.models import GroupModel
@@ -11,7 +11,6 @@ class GroupModelSerializerMeta(ModelSerializer):
             'id',
             'name',
             'description',
-            'unique_code',
         ]
 
 
@@ -21,6 +20,8 @@ class GroupModelSerializer:
 
         class Meta(GroupModelSerializerMeta.Meta):
             fields = GroupModelSerializerMeta.Meta.fields + [
+                'unique_code',
+                'total_members',
                 'created_by',
                 'cover_picture',
                 'profile_picture',

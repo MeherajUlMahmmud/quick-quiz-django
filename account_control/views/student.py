@@ -8,7 +8,7 @@ from common.custom_pagination import CustomPageNumberPagination
 
 class StudentModelViewSet(ModelViewSet):
     http_method_names = ['get', 'head', 'options']
-    queryset = StudentModel.objects.all()
+    queryset = StudentModel.objects.all().order_by('-created_at')
     serializer_class = StudentModelSerializer.List
     search_fields = ['user']
     permission_classes = [IsAuthenticated]
