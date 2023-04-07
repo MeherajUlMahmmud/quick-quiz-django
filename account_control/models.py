@@ -7,7 +7,7 @@ from common.models import BaseModel
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, username, password=None, is_student=True, is_teacher=False, is_admin=False):
+    def create_user(self, username, password=None, is_student=False, is_teacher=False, is_admin=False):
         """
         Creates and saves a User with the given username and password.
         """
