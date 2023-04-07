@@ -6,15 +6,26 @@ from exam_control.models import StudentSubmissionModel, StudentSubmissionAnswerM
 class StudentSubmissionModelSerializerMeta(ModelSerializer):
     class Meta:
         model = StudentSubmissionModel
-        fields = ['exam', 'student', 'started_at']
+        fields = [
+            'exam',
+            'student',
+            'started_at',
+        ]
 
 
 class StudentSubmissionModelSerializer:
     class List(StudentSubmissionModelSerializerMeta):
         class Meta(StudentSubmissionModelSerializerMeta.Meta):
-            fields = StudentSubmissionModelSerializerMeta.Meta.fields + ['id', 'submitted_at', 'duration', 'score',
-                                                                         'is_graded', 'feedback', 'created_at',
-                                                                         'updated_at']
+            fields = StudentSubmissionModelSerializerMeta.Meta.fields + [
+                'id',
+                'submitted_at',
+                'duration',
+                'score',
+                'is_graded',
+                'feedback',
+                'created_at',
+                'updated_at',
+            ]
 
     class Write(StudentSubmissionModelSerializerMeta):
         class Meta(StudentSubmissionModelSerializerMeta.Meta):
@@ -22,13 +33,21 @@ class StudentSubmissionModelSerializer:
 
     class Update(StudentSubmissionModelSerializerMeta):
         class Meta(StudentSubmissionModelSerializerMeta.Meta):
-            fields = StudentSubmissionModelSerializerMeta.Meta.fields + ['submitted_at', 'feedback']
+            fields = StudentSubmissionModelSerializerMeta.Meta.fields + [
+                'submitted_at',
+                'feedback',
+            ]
 
 
 class StudentSubmissionAnswerModelSerializerMeta(ModelSerializer):
     class Meta:
         model = StudentSubmissionAnswerModel
-        fields = ['id', 'submission', 'question', 'option']
+        fields = [
+            'id',
+            'submission',
+            'question',
+            'option',
+        ]
 
 
 class StudentSubmissionAnswerModelSerializer:

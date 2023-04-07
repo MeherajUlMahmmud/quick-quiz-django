@@ -13,7 +13,10 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserModel
-        fields = ['username', 'password']
+        fields = [
+            'username',
+            'password',
+        ]
 
     def validate(self, attrs):
         username = attrs.get('username', '')
@@ -61,7 +64,12 @@ class ChangePasswordSerializer(serializers.Serializer):
     confirm_password = serializers.CharField()
 
     class Meta:
-        fields = ['username', 'old_password', 'new_password', 'confirm_password']
+        fields = [
+            'username',
+            'old_password',
+            'new_password',
+            'confirm_password',
+        ]
 
     def validate(self, attrs):
         username = attrs.get('username', '')
@@ -98,7 +106,11 @@ class ResetPasswordSerializer(serializers.Serializer):
     confirm_password = serializers.CharField()
 
     class Meta:
-        fields = ['username', 'new_password', 'confirm_password']
+        fields = [
+            'username',
+            'new_password',
+            'confirm_password',
+        ]
 
     def validate(self, attrs):
         username = attrs.get('username', '')

@@ -8,7 +8,14 @@ from group_control.serializers.group import GroupModelSerializer
 class GroupMemberRequestModelSerializerMeta(ModelSerializer):
     class Meta:
         model = GroupMemberRequestModel
-        fields = ('id', 'group', 'user', 'status', 'accepted_by', 'rejected_by')
+        fields = [
+            'id',
+            'group',
+            'user',
+            'status',
+            'accepted_by',
+            'rejected_by',
+        ]
 
 
 class GroupMemberRequestModelSerializer:
@@ -31,7 +38,11 @@ class GroupMemberModelSerializerMeta(ModelSerializer):
 
     class Meta:
         model = GroupMemberModel
-        fields = ('id', 'group', 'member')
+        fields = [
+            'id',
+            'group',
+            'member',
+        ]
 
 
 class GroupMemberModelSerializer:
@@ -45,4 +56,7 @@ class GroupMemberModelSerializer:
 
     class Update(GroupMemberModelSerializerMeta):
         class Meta(GroupMemberModelSerializerMeta.Meta):
-            fields = ('is_admin', 'is_moderator')
+            fields = [
+                'is_admin',
+                'is_moderator',
+            ]

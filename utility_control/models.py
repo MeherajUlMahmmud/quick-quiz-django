@@ -1,6 +1,6 @@
 from django.db import models
-from common.choices import FeedbackSource
 
+from common.choices import FeedbackSource, IssueStatus
 from common.models import BaseModel
 
 
@@ -26,12 +26,27 @@ class FeedbackModel(BaseModel):
     email = models.EmailField(max_length=255)
     message = models.TextField()
     source = models.CharField(max_length=255, choices=FeedbackSource.choices, default=FeedbackSource.WEBSITE)
-    file = models.ForeignKey(FileModel, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         db_table = 'feedback'
         verbose_name = 'Feedback'
         verbose_name_plural = 'Feedbacks'
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.name
+
+
+class IssueModel(BaseModel):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    status = models.CharField(max_length=255, choices=IssueStatus.choices, default=IssueStatus.PENDING)
+
+    class Meta:
+        db_table = 'issue'
+        verbose_name = 'Issue'
+        verbose_name_plural = 'Issues'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.title

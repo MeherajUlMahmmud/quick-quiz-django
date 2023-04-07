@@ -24,8 +24,8 @@ class PackageModel(BaseModel):
 
 
 class SubscriptionModel(BaseModel):
-    package = models.ForeignKey(PackageModel, on_delete=models.CASCADE)
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    package = models.ForeignKey(PackageModel, on_delete=models.RESTRICT, related_name='subscriptions')
+    user = models.ForeignKey(UserModel, on_delete=models.RESTRICT, related_name='subscriptions')
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
     is_active = models.BooleanField(default=False)
@@ -41,7 +41,7 @@ class SubscriptionModel(BaseModel):
 
 
 class SubscriptionPaymentModel(BaseModel):
-    subscription = models.ForeignKey(SubscriptionModel, on_delete=models.CASCADE)
+    subscription = models.ForeignKey(SubscriptionModel, on_delete=models.RESTRICT, related_name='payments')
     payment_date = models.DateTimeField(null=True, blank=True)
     amount = models.FloatField(null=True, blank=True)
     payment_method = models.CharField(max_length=100, null=True, blank=True)

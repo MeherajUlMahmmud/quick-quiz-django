@@ -28,13 +28,13 @@ class GroupModel(BaseModel):
 
 
 class GroupMemberRequestModel(BaseModel):
-    group = models.ForeignKey(GroupModel, on_delete=models.CASCADE, related_name='req_group')
-    member = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='req_members')
+    group = models.ForeignKey(GroupModel, on_delete=models.RESTRICT, related_name='req_group')
+    member = models.ForeignKey(UserModel, on_delete=models.RESTRICT, related_name='req_members')
     status = models.CharField(max_length=255, choices=GroupMemberRequestStatus.choices,
                               default=GroupMemberRequestStatus.PENDING)
-    accepted_by = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='accepted_by', null=True,
+    accepted_by = models.ForeignKey(UserModel, on_delete=models.RESTRICT, related_name='accepted_by', null=True,
                                     blank=True)
-    rejected_by = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='rejected_by', null=True,
+    rejected_by = models.ForeignKey(UserModel, on_delete=models.RESTRICT, related_name='rejected_by', null=True,
                                     blank=True)
 
     class Meta:
@@ -45,8 +45,8 @@ class GroupMemberRequestModel(BaseModel):
 
 
 class GroupMemberModel(BaseModel):
-    group = models.ForeignKey(GroupModel, on_delete=models.CASCADE, related_name='group')
-    member = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='members')
+    group = models.ForeignKey(GroupModel, on_delete=models.RESTRICT, related_name='group')
+    member = models.ForeignKey(UserModel, on_delete=models.RESTRICT, related_name='members')
     is_admin = models.BooleanField(default=False)
     is_moderator = models.BooleanField(default=False)
 
@@ -58,7 +58,7 @@ class GroupMemberModel(BaseModel):
 
 
 class GroupPostModel(BaseModel):
-    group = models.ForeignKey(GroupModel, on_delete=models.CASCADE, related_name='group_post')
+    group = models.ForeignKey(GroupModel, on_delete=models.RESTRICT, related_name='group_post')
     post = models.TextField()
     files = models.ManyToManyField(FileModel, related_name='files')
     claps = models.IntegerField(default=0)
@@ -72,7 +72,7 @@ class GroupPostModel(BaseModel):
 
 
 class GroupPostClapModel(BaseModel):
-    group_post = models.ForeignKey(GroupPostModel, on_delete=models.CASCADE, related_name='group_post_clap')
+    group_post = models.ForeignKey(GroupPostModel, on_delete=models.RESTRICT, related_name='group_post_clap')
 
     class Meta:
         db_table = 'group_post_clap'
@@ -82,9 +82,9 @@ class GroupPostClapModel(BaseModel):
 
 
 class GroupPostCommentModel(BaseModel):
-    group_post = models.ForeignKey(GroupPostModel, on_delete=models.CASCADE, related_name='group_post_comment')
+    group_post = models.ForeignKey(GroupPostModel, on_delete=models.RESTRICT, related_name='group_post_comment')
     comment = models.TextField()
-    file = models.ForeignKey(FileModel, on_delete=models.CASCADE, null=True, blank=True, related_name='comment_file')
+    file = models.ForeignKey(FileModel, on_delete=models.RESTRICT, related_name='comment_file', null=True, blank=True)
 
     class Meta:
         db_table = 'group_post_comment'

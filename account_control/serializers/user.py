@@ -1,14 +1,17 @@
 from rest_framework.serializers import ModelSerializer, CharField, ValidationError
 
-from account_control.models import UserModel, StudentModel, TeacherModel
-from account_control.serializers.student import StudentModelSerializer
-from account_control.serializers.teacher import TeacherModelSerializer
+from account_control.models import UserModel
 
 
 class UserModelSerializerMeta(ModelSerializer):
     class Meta:
         model = UserModel
-        fields = ['id', 'username', 'name', 'email']
+        fields = [
+            'id',
+            'username',
+            'name',
+            'email',
+        ]
 
 
 class UserModelSerializer:

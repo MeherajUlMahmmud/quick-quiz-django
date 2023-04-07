@@ -1,6 +1,6 @@
-from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from django.db import models
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from common.models import BaseModel
@@ -65,8 +65,10 @@ class UserModel(AbstractBaseUser, BaseModel, PermissionsMixin):
         return self.username
 
     class Meta:
+        db_table = 'user'
         verbose_name = 'User'
         verbose_name_plural = 'Users'
+        ordering = ['-created_at']
 
     @property
     def get_name(self):
@@ -86,41 +88,32 @@ class UserModel(AbstractBaseUser, BaseModel, PermissionsMixin):
         }
 
 
-class UserOTPModel(BaseModel):
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='user_otp')
-    otp_code = models.CharField(max_length=255)
-    otp_code_expired = models.DateTimeField()
-
-    class Meta:
-        verbose_name = 'User OTP'
-        verbose_name_plural = 'User OTPs'
-
-    def __str__(self):
-        return self.user.username
-
-
 class TeacherModel(BaseModel):
-    user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name='teacher')
+    user = models.OneToOneField(UserModel, on_delete=models.RESTRICT, related_name='teacher')
     total_courses = models.IntegerField(default=0)
     total_students = models.IntegerField(default=0)
     total_reviews = models.IntegerField(default=0)
     rating = models.FloatField(default=0)
 
     class Meta:
+        db_table = 'teacher'
         verbose_name = 'Teacher'
         verbose_name_plural = 'Teachers'
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.user.username
 
 
 class StudentModel(BaseModel):
-    user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name='student')
+    user = models.OneToOneField(UserModel, on_delete=models.RESTRICT, related_name='student')
     total_courses = models.IntegerField(default=0)
 
     class Meta:
+        db_table = 'student'
         verbose_name = 'Student'
         verbose_name_plural = 'Students'
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.user.username

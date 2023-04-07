@@ -1,13 +1,13 @@
 from django.contrib import admin
 
-from group_control.models import GroupModel, GroupMemberModel, GroupMemberRequestModel, GroupPostModel, \
-    GroupPostClapModel, GroupPostCommentModel
+from group_control.models import (GroupModel, GroupMemberModel, GroupMemberRequestModel, GroupPostModel,
+                                  GroupPostClapModel, GroupPostCommentModel)
 
 
 class GroupModelAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'unique_code', 'created_by', 'cover_picture', 'profile_picture')
-    search_fields = ('name', 'description', 'unique_code', 'created_by', 'cover_picture', 'profile_picture')
-    list_filter = ('name', 'description', 'unique_code', 'created_by', 'cover_picture', 'profile_picture')
+    list_display = ('name', 'description', 'unique_code', 'created_by', 'created_at')
+    search_fields = ('name', 'unique_code')
+    list_filter = ('name', 'unique_code', 'created_by')
 
 
 class GroupMemberModelAdmin(admin.ModelAdmin):

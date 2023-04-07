@@ -1,31 +1,23 @@
-import string
 import random
+import string
 
-from django.db import models, transaction
-from django.db.models import Sum, Q, F, Count, Avg
-from django.db.models.functions import Coalesce
-
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
+from django.db import transaction
+from django.db.models import F
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_403_FORBIDDEN
 
-from common.custom_pagination import CustomPageNumberPagination
 from common.custom_view import CustomModelViewSet
-from group_control.custom_filters import GroupModelFilter
+from group_control.custom_filters.group import GroupModelFilter
 from group_control.models import GroupModel, GroupMemberModel, GroupPostModel
 from group_control.serializers.group import GroupModelSerializer
 
 
 class GroupModelViewSet(CustomModelViewSet):
     http_method_names = ['get', 'head', 'options', 'post', 'put', 'patch', 'delete']
-    queryset = GroupModel.objects.all().order_by('-created_at')
+    queryset = GroupModel.objects.all()
     permission_classes = [IsAuthenticated]
-    search_fields = ['name']
     filterset_class = GroupModelFilter
-    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
-    pagination_class = CustomPageNumberPagination
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
@@ -49,18 +41,28 @@ class GroupModelViewSet(CustomModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         group = GroupModel.objects.filter(id=instance.id)
+
         group_serializer_data = GroupModelSerializer.List(group.first()).data
-        members = GroupMemberModel.objects.filter(group=instance.id).values('member').annotate(
+        members = GroupMemberModel.objects.filter(group=instance.id).values(
+            'member',
+        ).annotate(
             id=F('member__id'),
             name=F('member__name'),
             email=F('member__email'),
         ).values('id', 'name', 'email')
         group_serializer_data['members'] = members
-        posts = GroupPostModel.objects.filter(group=instance.id).values('id', 'post', 'claps', 'comments',
-                                                                        'created_at').annotate(
+
+        posts = GroupPostModel.objects.filter(group=instance.id).values(
+            'id',
+            'post',
+            'claps',
+            'comments',
+            'created_at',
+        ).annotate(
             author_id=F('created_by__id'),
             author_name=F('created_by__name'),
             author_email=F('created_by__email'),
         ).values('id', 'post', 'claps', 'comments', 'created_at', 'author_id', 'author_name', 'author_email')
         group_serializer_data['posts'] = posts
+
         return Response(group_serializer_data)

@@ -7,4 +7,3 @@ admin.site.register(QuestionModel)
 admin.site.register(QuestionAttachmentModel)
 admin.site.register(OptionModel)
 admin.site.register(OptionAttachmentModel)
-

@@ -1,24 +1,18 @@
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-from rest_framework import filters
 
-from account_control.custom_filters import UserModelFilter
+from account_control.custom_filters.user import UserModelFilter
 from account_control.models import UserModel
 from account_control.serializers.user import UserModelSerializer
-from common.custom_pagination import CustomPageNumberPagination
 from common.custom_view import CustomModelViewSet
 
 
 class UserModelViewSet(CustomModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete']
-    queryset = UserModel.objects.all().order_by('-created_at')
+    queryset = UserModel.objects.all()
     permission_classes = [IsAuthenticated]
-    search_fields = ['username']
     filterset_class = UserModelFilter
-    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
-    pagination_class = CustomPageNumberPagination
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
@@ -29,8 +23,8 @@ class UserModelViewSet(CustomModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_superuser or self.request.user.is_staff or self.request.user.is_admin:
-            return UserModel.objects.all().order_by('-created_at')
-        return UserModel.objects.filter(id=self.request.user.id).order_by('-created_at')
+            return UserModel.objects.all()
+        return UserModel.objects.filter(id=self.request.user.id)
 
     def retrieve(self, request, *args, **kwargs):
         user = UserModel.objects.get(id=kwargs['pk'])

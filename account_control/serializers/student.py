@@ -1,13 +1,14 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from account_control.models import StudentModel
-# from account.serializers.user import UserModelSerializer
 
 
 class StudentModelSerializerMeta(ModelSerializer):
     class Meta:
         model = StudentModel
-        fields = ['id']
+        fields = [
+            'id',
+        ]
 
 
 class StudentModelSerializer:
@@ -25,4 +26,3 @@ class StudentModelSerializer:
     class Lite(StudentModelSerializerMeta):
         class Meta(StudentModelSerializerMeta.Meta):
             fields = StudentModelSerializerMeta.Meta.fields
-

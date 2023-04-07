@@ -1,12 +1,12 @@
+from rest_framework import views, generics
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT
-from rest_framework import views, generics
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from account_control.serializers.auth import LoginSerializer, LogoutSerializer, ResetPasswordSerializer, \
-    ChangePasswordSerializer
+from account_control.serializers.auth import (LoginSerializer, LogoutSerializer, ResetPasswordSerializer,
+                                              ChangePasswordSerializer)
 from account_control.serializers.user import UserModelSerializer
 
 
@@ -43,7 +43,7 @@ class LoginAPIView(generics.GenericAPIView):
         if user:
             user_data = UserModelSerializer.List(user).data
             tokens = get_tokens_for_user(user)
-            return Response({'data': user_data, "tokens": tokens, }, status=HTTP_200_OK)
+            return Response({'user': user_data, "tokens": tokens, }, status=HTTP_200_OK)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 

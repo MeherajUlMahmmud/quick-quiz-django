@@ -22,3 +22,9 @@ class PaymentStatus(models.TextChoices):
 class FeedbackSource(models.TextChoices):
     WEBSITE = "Website", "Website"
     APP = "App", "App"
+
+
+class IssueStatus(models.TextChoices):
+    PENDING = "Pending", "Pending"
+    WORKING = "Working", "Working"
+    FIXED = "Fixed", "Fixed"

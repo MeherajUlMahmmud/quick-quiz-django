@@ -1,24 +1,21 @@
 from django.db import models
-from django.db.models import Sum, Q, F, Count, Avg
+from django.db.models import Count, Avg
 from django.db.models.functions import Coalesce
-
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import action
 from rest_framework.status import HTTP_403_FORBIDDEN
-from rest_framework.viewsets import ModelViewSet
 
-from common.custom_pagination import CustomPageNumberPagination
+from common.custom_view import CustomModelViewSet
 from exam_control.models import ExamModel, StudentSubmissionModel
 from exam_control.serializers.exam import ExamModelSerializer
 from exam_control.serializers.question import QuestionModelSerializer
 
 
-class ExamModelViewSet(ModelViewSet):
+class ExamModelViewSet(CustomModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete']
-    queryset = ExamModel.objects.all().order_by('-created_at')
+    queryset = ExamModel.objects.all()
     permission_classes = [IsAuthenticated]
-    pagination_class = CustomPageNumberPagination
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
